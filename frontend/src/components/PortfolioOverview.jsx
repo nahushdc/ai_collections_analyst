@@ -22,7 +22,7 @@ const cards = [
   {
     label: 'Collection Rate',
     key: 'collection_rate',
-    format: (v) => (v != null ? `${v}%` : '-'),
+    format: (v) => (v != null ? `${v.toFixed(2)}%` : '-'),
     gradient: 'from-yellow-300 to-orange-300',
     glow: 'from-yellow-400/10',
     sub: 'Overall conversion',

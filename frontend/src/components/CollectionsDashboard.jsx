@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import {
   Send, ChevronRight, BarChart3, TrendingUp, Users, MapPin,
-  Menu, ChevronLeft, Sparkles, Home, Loader2,
+  ChevronLeft, Sparkles, Loader2, ChevronsRight,
 } from 'lucide-react';
 import Logo from './Logo';
 import PortfolioOverview from './PortfolioOverview';
@@ -155,44 +155,35 @@ export default function CollectionsDashboard() {
       {/* Sidebar */}
       <div
         className={`relative flex flex-col border-r border-slate-700/50 bg-gradient-to-b from-slate-900/80 to-slate-950/80 backdrop-blur-xl transition-all duration-300 ${
-          sidebarOpen ? 'w-72' : 'w-20'
+          sidebarOpen ? 'w-80' : 'w-20'
         }`}
       >
-        {/* Logo */}
+        {/* Logo Section */}
         <div className="border-b border-slate-700/50 p-6">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <Logo isDark={isDark} size={sidebarOpen ? 'md' : 'sm'} />
-              {sidebarOpen && (
-                <div>
-                  <div className="flex items-baseline gap-1">
-                    <span className="bg-gradient-to-r from-violet-400 via-purple-400 to-cyan-400 bg-clip-text text-sm font-bold text-transparent">
-                      DPD
-                    </span>
-                    <span className="text-sm font-bold text-slate-300">zero</span>
-                  </div>
-                  <p className="text-xs text-slate-500">Collections Analytics</p>
-                </div>
-              )}
-            </div>
-            <button
-              onClick={() => setSidebarOpen(!sidebarOpen)}
-              className="rounded-lg p-1.5 text-slate-400 transition-colors hover:bg-slate-800/50 hover:text-slate-200"
-            >
-              {sidebarOpen ? <ChevronLeft size={18} /> : <Menu size={18} />}
-            </button>
-          </div>
-        </div>
-
-        {/* Home */}
-        <div className="border-b border-slate-700/50 px-4 py-3">
           <button
             onClick={() => setActiveChat(null)}
-            className="flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium text-slate-400 transition-all hover:bg-slate-800/50 hover:text-slate-100"
+            className="group mb-4 w-full cursor-pointer transition-all hover:opacity-80"
           >
-            <Home size={18} className="flex-shrink-0" />
-            {sidebarOpen && <span>Back to Home</span>}
+            <div className="flex justify-center">
+              <Logo isDark={isDark} size={sidebarOpen ? 'lg' : 'sm'} />
+            </div>
           </button>
+
+          {/* Collections Whisperer Section */}
+          {sidebarOpen && (
+            <div className="relative overflow-hidden rounded-xl border border-violet-500/20 bg-gradient-to-br from-violet-600/10 via-purple-600/10 to-cyan-600/10 p-4 backdrop-blur-sm">
+              <div className="absolute inset-0 bg-gradient-to-br from-violet-500/5 to-cyan-500/5" />
+              <div className="relative">
+                <div className="mb-1 flex items-center gap-2">
+                  <Sparkles size={16} className="text-violet-400" />
+                  <span className="bg-gradient-to-r from-violet-300 via-purple-300 to-cyan-300 bg-clip-text text-sm font-bold text-transparent">
+                    Collections Whisperer
+                  </span>
+                </div>
+                <p className="text-xs text-slate-400">AI-Powered Analytics</p>
+              </div>
+            </div>
+          )}
         </div>
 
         {/* Chat History */}
@@ -238,6 +229,23 @@ export default function CollectionsDashboard() {
               ))
             )}
           </div>
+        </div>
+
+        {/* Collapse/Expand Button - Bottom */}
+        <div className="border-t border-slate-700/50 p-4">
+          <button
+            onClick={() => setSidebarOpen(!sidebarOpen)}
+            className="flex w-full items-center justify-center gap-2 rounded-lg px-3 py-2.5 text-xs font-medium text-slate-400 transition-all hover:bg-slate-800/50 hover:text-slate-200"
+          >
+            {sidebarOpen ? (
+              <>
+                <ChevronLeft size={16} />
+                <span>Collapse</span>
+              </>
+            ) : (
+              <ChevronsRight size={16} />
+            )}
+          </button>
         </div>
       </div>
 

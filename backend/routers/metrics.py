@@ -11,7 +11,15 @@ async def get_metrics():
     df = get_dataframe()
 
     total_cases = len(df)
-    active_states = int(df['State'].nunique()) if 'State' in df.columns else 0
+
+    # Check for State column (or use Region as fallback)
+    if 'State' in df.columns:
+        active_states = int(df['State'].nunique())
+    elif 'Region' in df.columns:
+        active_states = int(df['Region'].nunique())
+    else:
+        active_states = 0
+
     total_aum = float(df['POS'].sum())
     total_collection = float(df['Collected Amount'].sum())
     collection_rate = round(total_collection / total_aum * 100, 2) if total_aum > 0 else 0.0
@@ -22,8 +30,16 @@ async def get_metrics():
 
     date_range_start = None
     date_range_end = None
-    if 'Upload Date' in df.columns:
-        valid_dates = df['Upload Date'].dropna()
+
+    # Try Upload Date first, then fall back to Disbursement Date or Due Date
+    date_col = None
+    for col in ['Upload Date', 'Disbursement Date', 'Due Date']:
+        if col in df.columns:
+            date_col = col
+            break
+
+    if date_col:
+        valid_dates = df[date_col].dropna()
         if len(valid_dates) > 0:
             date_range_start = str(valid_dates.min().strftime('%d %b %Y'))
             date_range_end = str(valid_dates.max().strftime('%d %b %Y'))

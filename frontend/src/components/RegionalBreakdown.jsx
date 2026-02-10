@@ -22,19 +22,40 @@ export default function RegionalBreakdown() {
 
   if (loading) {
     return (
-      <div>
-        <h3 className="mb-6 text-2xl font-bold text-white">Cases by Region</h3>
-        <div className="rounded-2xl border border-slate-600/30 bg-gradient-to-br from-slate-800/60 to-slate-900/40 p-8 backdrop-blur-xl">
-          <div className="space-y-6">
-            {[1, 2, 3, 4].map((i) => (
-              <div key={i} className="space-y-2">
-                <div className="flex justify-between">
-                  <div className="h-4 w-16 animate-pulse rounded bg-slate-700/50" />
-                  <div className="h-6 w-12 animate-pulse rounded bg-slate-700/50" />
+      <div className="grid grid-cols-1 gap-8 lg:grid-cols-2">
+        {/* Performance by Region - Loading */}
+        <div>
+          <h3 className="mb-6 text-2xl font-bold text-white">Performance by Region</h3>
+          <div className="rounded-2xl border border-slate-600/30 bg-gradient-to-br from-slate-800/60 to-slate-900/40 p-8 backdrop-blur-xl">
+            <div className="space-y-6">
+              {[1, 2, 3, 4].map((i) => (
+                <div key={i} className="space-y-2">
+                  <div className="flex justify-between">
+                    <div className="h-4 w-16 animate-pulse rounded bg-slate-700/50" />
+                    <div className="h-6 w-12 animate-pulse rounded bg-slate-700/50" />
+                  </div>
+                  <div className="h-3 w-full animate-pulse rounded-full bg-slate-700/30" />
                 </div>
-                <div className="h-3 w-full animate-pulse rounded-full bg-slate-700/30" />
-              </div>
-            ))}
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* Cases by Region - Loading */}
+        <div>
+          <h3 className="mb-6 text-2xl font-bold text-white">Cases by Region</h3>
+          <div className="rounded-2xl border border-slate-600/30 bg-gradient-to-br from-slate-800/60 to-slate-900/40 p-8 backdrop-blur-xl">
+            <div className="space-y-6">
+              {[1, 2, 3, 4].map((i) => (
+                <div key={i} className="space-y-2">
+                  <div className="flex justify-between">
+                    <div className="h-4 w-16 animate-pulse rounded bg-slate-700/50" />
+                    <div className="h-6 w-12 animate-pulse rounded bg-slate-700/50" />
+                  </div>
+                  <div className="h-3 w-full animate-pulse rounded-full bg-slate-700/30" />
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </div>
@@ -43,30 +64,64 @@ export default function RegionalBreakdown() {
 
   if (regions.length === 0) return null;
 
+  // Find max conversion rate for scaling the bars
+  const maxConversionRate = Math.max(...regions.map((r) => r.conversion_rate));
+
   return (
-    <div>
-      <h3 className="mb-6 text-2xl font-bold text-white">Cases by Region</h3>
-      <div className="relative rounded-2xl border border-slate-600/30 bg-gradient-to-br from-slate-800/60 to-slate-900/40 p-8 backdrop-blur-xl">
-        <div className="absolute -ml-20 -mt-20 left-0 top-0 h-40 w-40 rounded-full bg-gradient-to-br from-violet-500/10 to-transparent" />
-        <div className="relative z-10 space-y-6">
-          {regions.map((region, idx) => (
-            <div key={region.name} className="group space-y-2">
-              <div className="flex items-center justify-between">
-                <span className="text-sm font-semibold text-slate-300 transition-colors group-hover:text-white">
-                  {region.name}
-                </span>
-                <span className="bg-gradient-to-r from-violet-300 to-cyan-300 bg-clip-text text-2xl font-bold text-transparent">
-                  {region.case_percentage}%
-                </span>
+    <div className="grid grid-cols-1 gap-8 lg:grid-cols-2">
+      {/* Performance by Region */}
+      <div>
+        <h3 className="mb-6 text-2xl font-bold text-white">Performance by Region</h3>
+        <div className="relative rounded-2xl border border-slate-600/30 bg-gradient-to-br from-slate-800/60 to-slate-900/40 p-8 backdrop-blur-xl">
+          <div className="absolute -ml-20 -mt-20 left-0 top-0 h-40 w-40 rounded-full bg-gradient-to-br from-emerald-500/10 to-transparent" />
+          <div className="relative z-10 space-y-6">
+            {regions.map((region, idx) => (
+              <div key={region.name} className="group space-y-2">
+                <div className="flex items-center justify-between">
+                  <span className="text-sm font-semibold text-slate-300 transition-colors group-hover:text-white">
+                    {region.name}
+                  </span>
+                  <span className="bg-gradient-to-r from-emerald-300 to-teal-300 bg-clip-text text-2xl font-bold text-transparent">
+                    {region.conversion_rate}%
+                  </span>
+                </div>
+                <div className="h-3 overflow-hidden rounded-full bg-slate-700/30 backdrop-blur-sm">
+                  <div
+                    style={{ width: `${(region.conversion_rate / maxConversionRate) * 100}%` }}
+                    className={`h-full rounded-full bg-gradient-to-r ${COLOR_PALETTE[idx % COLOR_PALETTE.length]} shadow-lg transition-all duration-500 hover:shadow-xl`}
+                  />
+                </div>
               </div>
-              <div className="h-3 overflow-hidden rounded-full bg-slate-700/30 backdrop-blur-sm">
-                <div
-                  style={{ width: `${region.case_percentage}%` }}
-                  className={`h-full rounded-full bg-gradient-to-r ${COLOR_PALETTE[idx % COLOR_PALETTE.length]} shadow-lg transition-all duration-500 hover:shadow-xl`}
-                />
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* Cases by Region */}
+      <div>
+        <h3 className="mb-6 text-2xl font-bold text-white">Cases by Region</h3>
+        <div className="relative rounded-2xl border border-slate-600/30 bg-gradient-to-br from-slate-800/60 to-slate-900/40 p-8 backdrop-blur-xl">
+          <div className="absolute -ml-20 -mt-20 left-0 top-0 h-40 w-40 rounded-full bg-gradient-to-br from-violet-500/10 to-transparent" />
+          <div className="relative z-10 space-y-6">
+            {regions.map((region, idx) => (
+              <div key={region.name} className="group space-y-2">
+                <div className="flex items-center justify-between">
+                  <span className="text-sm font-semibold text-slate-300 transition-colors group-hover:text-white">
+                    {region.name}
+                  </span>
+                  <span className="bg-gradient-to-r from-violet-300 to-cyan-300 bg-clip-text text-2xl font-bold text-transparent">
+                    {region.case_percentage}%
+                  </span>
+                </div>
+                <div className="h-3 overflow-hidden rounded-full bg-slate-700/30 backdrop-blur-sm">
+                  <div
+                    style={{ width: `${region.case_percentage}%` }}
+                    className={`h-full rounded-full bg-gradient-to-r ${COLOR_PALETTE[idx % COLOR_PALETTE.length]} shadow-lg transition-all duration-500 hover:shadow-xl`}
+                  />
+                </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </div>
     </div>
