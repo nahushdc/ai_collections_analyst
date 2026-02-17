@@ -16,9 +16,15 @@ async def lifespan(app: FastAPI):
 
 app = FastAPI(title="DPD-GPT API", lifespan=lifespan)
 
+import os
+_cors_origins = settings.cors_origins
+if os.getenv("RENDER"):
+    # In production, allow all origins (Netlify frontend)
+    _cors_origins = ["*"]
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=settings.cors_origins,
+    allow_origins=_cors_origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
