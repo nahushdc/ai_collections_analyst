@@ -10,8 +10,13 @@ dist/
 # Environment
 .env
 
-# Data (too large for GitHub)
+# Raw/original data (only keep compressed anonymized version)
 data/*.csv
+!data/*.csv.gz
+
+# Scripts
+anonymize_data.py
+prepare_data.py
 
 # OS
 .DS_Store
