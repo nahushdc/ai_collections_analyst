@@ -15,7 +15,7 @@ def load_and_process_data(file_path: str) -> pd.DataFrame:
     derived columns, PTP flags, etc.
     """
     # Load data - detect format from extension
-    if file_path.endswith('.csv'):
+    if '.csv' in file_path:
         df = pd.read_csv(file_path, encoding='latin-1', low_memory=False)
     else:
         df = pd.read_excel(file_path)
